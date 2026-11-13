@@ -39,6 +39,16 @@ PANEL_Y = 200
 # Test an animation: python3 weather_anim.py heavysnow
 FORCE = sys.argv[1] if len(sys.argv) > 1 else None
 
+SCENE_FILE = os.path.expanduser("~/weather/scene.txt")
+
+
+def forced_scene():
+    try:
+        with open(SCENE_FILE) as f:
+            return f.read().strip() or None
+    except FileNotFoundError:
+        return None
+
 weather = {"series": None, "error": None}
 
 
@@ -413,6 +423,8 @@ def main():
     scene = Scene()
     signal.signal(signal.SIGTERM, lambda *a: sys.exit(0))
     monitor_on()
+        force = FORCE
+        next_check = 0
 
     try:
         while True:
@@ -420,7 +432,10 @@ def main():
 
             series = weather["series"]
             now = current_entry(series) if series else None
-            code = FORCE or (symbol(now) if now else "cloudy")
+            if time.time() >= next_check:
+                force = FORCE or forced_scene()
+                next_check = time.time() + 1
+            code = force or (symbol(now) if now else "cloudy")
             scene.set_code(code)
 
             scene.update(dt)
