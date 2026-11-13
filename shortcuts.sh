@@ -8,15 +8,14 @@ skjerm-paa() {
     fi
 }
 
-# Stop the display and put the monitor in standby
+# Stop the display and paint the screen black (monitor stays on)
 skjerm-av() {
-    pkill -f weather_anim.py || cec-ctl -d /dev/cec0 --to 0 --standby > /dev/null
+    pkill -f weather_anim.py || dd if=/dev/zero of=/dev/fb0 2>/dev/null
 }
 
-# Show a test scene without restarting. "skjerm-test" alone = real weather
-skjerm-test() {
-    echo "$1" > "$WEATHER_DIR/scene.txt"
-    skjerm-paa
+# Really put the monitor in standby (shows the logo when it wakes up)
+skjerm-standby() {
+    pkill -f weather_anim.py; cec-ctl -d /dev/cec0 --to 0 --standby > /dev/null
 }
 
 # Get the newest code from git and restart the display

@@ -465,8 +465,7 @@ def main():
         pass
     finally:
         screen.clear()
-        monitor_off()
-        print("\nStopped. Monitor in standby.")
+        print("\nStopped. Screen is black, monitor stays on.")
 
 if __name__ == "__main__":
     main()
