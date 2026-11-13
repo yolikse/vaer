@@ -1,3 +1,5 @@
 hue_config.json
+scene.txt
+hue_watch.log
 *.log
 __pycache__/
