@@ -423,9 +423,9 @@ def main():
     scene = Scene()
     signal.signal(signal.SIGTERM, lambda *a: sys.exit(0))
     monitor_on()
-        force = FORCE
-        next_check = 0
-
+    force = FORCE
+    next_check = 0
+    
     try:
         while True:
             dt = clock.tick(FPS) / 1000
